@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Notifications - AccuLedger</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    * {
+      box-sizing: border-box;
+      padding: 0;
+      margin: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: url('background_login.png') no-repeat center center fixed;
+      background-size: cover;
+      backdrop-filter: blur(10px);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding-top: 80px;
+      color: #000;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 900px;
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(14px);
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .notification {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      background-color: rgba(255, 255, 255, 0.75);
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+      transition: transform 0.3s;
+    }
+
+    .notification:hover {
+      transform: translateY(-3px);
+    }
+
+    .icon {
+      font-size: 1.8rem;
+    }
+
+    .text {
+      flex: 1;
+    }
+
+    .text h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .text p {
+      font-size: 1rem;
+      color: #333;
+    }
+
+    .time {
+      font-size: 0.9rem;
+      color: #555;
+      margin-top: 0.4rem;
+    }
+
+    .mark-read {
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .mark-read button {
+      padding: 0.7rem 1.5rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 10px;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .mark-read button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔔 Notifications</h1>
+
+    <div class="notification">
+      <div class="icon">📥</div>
+      <div class="text">
+        <h3>New Invoice Received</h3>
+        <p>You’ve received a new invoice from XYZ Corporation worth ₹15,000.</p>
+        <div class="time">2 hours ago</div>
+      </div>
+    </div>
+
+    <div class="notification">
+      <div class="icon">💸</div>
+      <div class="text">
+        <h3>Expense Exceeded Limit</h3>
+        <p>Your marketing expense has exceeded the monthly limit by ₹5,000.</p>
+        <div class="time">Yesterday</div>
+      </div>
+    </div>
+
+    <div class="notification">
+      <div class="icon">⚙️</div>
+      <div class="text">
+        <h3>Settings Updated</h3>
+        <p>Your account settings were successfully updated.</p>
+        <div class="time">3 days ago</div>
+      </div>
+    </div>
+
+    <div class="notification">
+      <div class="icon">📈</div>
+      <div class="text">
+        <h3>Weekly Report Ready</h3>
+        <p>Your weekly financial report is now available.</p>
+        <div class="time">Last week</div>
+      </div>
+    </div>
+
+    <div class="mark-read">
+      <button>Mark All as Read</button>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign Up - AccuLedger</title>
+  <link rel="stylesheet" href="Login.css" />
+</head>
+<body>
+  <header>
+    <h2 class="logo">AccuLedger</h2>
+  </header>
+
+  <div class="wrapper">
+    <div class="form-box signup">
+      <h2>Sign Up</h2>
+      <form id="signupForm">
+        <div class="input-box">
+          <span class="icon"><ion-icon name="person"></ion-icon></span>
+          <input type="text" name="name" required />
+          <label>Name</label>
+        </div>
+
+        <div class="input-box">
+          <span class="icon"><ion-icon name="mail"></ion-icon></span>
+          <input type="email" name="email" required />
+          <label>Email</label>
+        </div>
+
+        <div class="input-box password-toggle">
+          <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+          <input type="password" name="password" id="signupPassword" required />
+          <label>Password</label>
+          <span class="toggle-icon" onclick="togglePassword('signupPassword', this)">
+            <ion-icon name="eye-off-outline"></ion-icon>
+          </span>
+        </div>
+
+        <button type="submit" class="btn">Sign Up</button>
+
+        <div class="signup reg">
+          <p>Already have an account? <a href="login.html" class="register-link">Login</a></p>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Icons -->
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+  <!-- Chatbot -->
+  <script>
+    window.embeddedChatbotConfig = {
+      chatbotId: "VhurV5wKTIgvHKrQTC8Hr",
+      domain: "www.chatbase.co"
+    }
+  </script>
+  <script src="https://www.chatbase.co/embed.min.js" chatbotId="VhurV5wKTIgvHKrQTC8Hr" domain="www.chatbase.co" defer></script>
+
+  <!-- Toggle Eye Script -->
+  <script>
+    function togglePassword(id, el) {
+      const input = document.getElementById(id);
+      const icon = el.querySelector("ion-icon");
+      if (input.type === "password") {
+        input.type = "text";
+        icon.setAttribute("name", "eye-outline");
+      } else {
+        input.type = "password";
+        icon.setAttribute("name", "eye-off-outline");
+      }
+    }
+  </script>
+
+  <!-- Sign Up API -->
+  <script>
+    document.querySelector("#signupForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const name = this.name.value;
+      const email = this.email.value;
+      const password = this.password.value;
+
+      try {
+        const response = await fetch("http://localhost:5000/api/signup", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ name, email, password })
+        });
+
+        const text = await response.text();
+        if (response.ok) {
+          alert("✅ Sign up successful! Please login.");
+          window.location.href = "login.html";
+        } else {
+          alert("❌ Sign up failed: " + text);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        alert("Something went wrong while signing up.");
+      }
+    });
+  </script>
+</body>
+</html>

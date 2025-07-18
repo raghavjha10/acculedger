@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Settings - AccuLedger</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    * {
+      box-sizing: border-box;
+      padding: 0;
+      margin: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: url('background_login.png') no-repeat center center fixed;
+      background-size: cover;
+      min-height: 100vh;
+      display: flex;
+    }
+
+    .sidebar {
+      width: 250px;
+      height: 100vh;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(12px);
+      padding: 2rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      box-shadow: 4px 0 15px rgba(0,0,0,0.2);
+    }
+
+    .sidebar h2 {
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .sidebar a {
+      text-decoration: none;
+      font-weight: 600;
+      color: #000;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0.8rem 1rem;
+      border-radius: 10px;
+      transition: background 0.3s ease;
+    }
+
+    .sidebar a:hover {
+      background: rgba(0, 0, 0, 0.1);
+    }
+
+    .container {
+      flex: 1;
+      padding: 3rem;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+      font-size: 2.5rem;
+    }
+
+    .setting-section {
+      margin-bottom: 2rem;
+    }
+
+    .setting-section h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: #333;
+    }
+
+    .setting-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      padding: 0.8rem 1rem;
+      background: rgba(255,255,255,0.7);
+      border-radius: 10px;
+    }
+
+    .setting-item label {
+      font-weight: 500;
+    }
+
+    .setting-item input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+    }
+
+    .setting-item input[type="text"],
+    .setting-item input[type="email"],
+    .setting-item input[type="password"] {
+      padding: 0.5rem 1rem;
+      width: 60%;
+      border: none;
+      border-radius: 8px;
+    }
+
+    .save-btn {
+      margin-top: 2rem;
+      text-align: center;
+    }
+
+    .save-btn button {
+      padding: 1rem 2rem;
+      font-size: 1rem;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .save-btn button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <h2>AccuLedger</h2>
+    <a href="dashboard.html">🏠 Dashboard</a>
+    <a href="income.html">💰 Income</a>
+    <a href="expenses.html">💵 Expenses</a>
+    <a href="invoices.html">📄 Invoices</a>
+    <a href="reports.html">📊 Reports</a>
+    <a href="settings.html">⚙️ Settings</a>
+  </div>
+
+  <div class="container">
+    <h1>Settings</h1>
+
+    <div class="setting-section">
+      <h2>Account Settings</h2>
+      <div class="setting-item">
+        <label for="username">Username</label>
+        <input type="text" id="username" value="raghav_kumar" />
+      </div>
+      <div class="setting-item">
+        <label for="email">Email</label>
+        <input type="email" id="email" value="raghav@example.com" />
+      </div>
+      <div class="setting-item">
+        <label for="password">Change Password</label>
+        <input type="password" id="password" placeholder="New Password" />
+      </div>
+    </div>
+
+    <div class="setting-section">
+      <h2>Preferences</h2>
+      <div class="setting-item">
+        <label for="dark-mode">Enable Dark Mode</label>
+        <input type="checkbox" id="dark-mode" />
+      </div>
+      <div class="setting-item">
+        <label for="notifications">Email Notifications</label>
+        <input type="checkbox" id="notifications" checked />
+      </div>
+    </div>
+
+    <div class="setting-section">
+      <h2>Security</h2>
+      <div class="setting-item">
+        <label for="2fa">Two-Factor Authentication</label>
+        <input type="checkbox" id="2fa" />
+      </div>
+      <div class="setting-item">
+        <label for="backup">Enable Backup</label>
+        <input type="checkbox" id="backup" />
+      </div>
+    </div>
+
+    <div class="save-btn">
+      <button onclick="saveSettings()">Save Changes</button>
+    </div>
+  </div>
+
+  <script>
+    function saveSettings() {
+      const username = document.getElementById('username').value;
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const darkMode = document.getElementById('dark-mode').checked;
+      const notifications = document.getElementById('notifications').checked;
+      const twoFA = document.getElementById('2fa').checked;
+      const backup = document.getElementById('backup').checked;
+
+      alert(`Saved!\nUsername: ${username}\nEmail: ${email}\nDark Mode: ${darkMode}\nNotifications: ${notifications}\n2FA: ${twoFA}\nBackup: ${backup}`);
+
+      // You can send this data to the server here if needed
+    }
+  </script>
+</body>
+</html>
