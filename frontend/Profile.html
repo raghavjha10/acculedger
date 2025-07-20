@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>User Profile - AccuLedger</title>
+  <link rel="stylesheet" href="Login.css" />
+  <style>
+    .logout-btn, .dashboard-btn {
+      background-color: #6c63ff;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      margin-left: 10px;
+      cursor: pointer;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .logout-btn:hover, .dashboard-btn:hover {
+      background-color: #5548d3;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px;
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .logo {
+      margin: 0;
+      color: black;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 10px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h2 class="logo">AccuLedger</h2>
+    <div class="button-group">
+      <button id="dashboardBtn" class="dashboard-btn">Dashboard</button>
+      <button id="logoutBtn" class="logout-btn">Logout</button>
+    </div>
+  </header>
+
+  <div class="wrapper">
+    <div class="form-box">
+      <h2>Your Profile</h2>
+      <p><strong>Full Name:</strong> <span id="fullName"></span></p>
+      <p><strong>Email:</strong> <span id="email"></span></p>
+    </div>
+  </div>
+
+  <script>
+    const email = localStorage.getItem("username");
+
+    if (!email) {
+      alert("⛔ You must login first!");
+      window.location.href = "login.html";
+    } else {
+      fetch(`http://localhost:5000/api/user/${email}`)
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById("fullName").textContent = data.name || "-"; // ✅ use "name"
+          document.getElementById("email").textContent = data.email || "-";
+        })
+        .catch(err => {
+          console.error("Error loading profile:", err);
+          alert("❌ Failed to load profile data.");
+        });
+    }
+
+    // Logout
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      localStorage.removeItem("username");
+      window.location.href = "login.html";
+    });
+
+    // Dashboard
+    document.getElementById("dashboardBtn").addEventListener("click", () => {
+      window.location.href = "dashboard.html"; // Change path if needed
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AccuLedger - Invoices</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: url('background_login.png') no-repeat;
+      background-size: cover;
+      backdrop-filter: blur(10px);
+      margin: 0;
+      display: flex;
+      color: #000;
+    }
+
+    .sidebar {
+      width: 250px;
+      background: rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(10px);
+      padding: 2rem 1rem;
+      height: 100vh;
+    }
+
+    .sidebar h2 {
+      font-size: 1.8rem;
+      margin-bottom: 2rem;
+    }
+
+    .sidebar a {
+      display: block;
+      padding: 0.8rem 1rem;
+      margin: 0.5rem 0;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      text-decoration: none;
+      color: black;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .sidebar a:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+      transform: translateX(5px);
+    }
+
+    .main {
+      flex-grow: 1;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+      width: 100%;
+      max-width: 800px;
+    }
+
+    input, select, textarea, button {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.8rem;
+      border-radius: 8px;
+      border: none;
+      width: 48%;
+      font-size: 1rem;
+      background: rgba(255, 255, 255, 0.7);
+    }
+
+    textarea {
+      width: 100%;
+      resize: vertical;
+    }
+
+    button {
+      background-color: #000;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #444;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: rgba(255, 255, 255, 0.3);
+      max-width: 800px;
+    }
+
+    th, td {
+      padding: 1rem;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+      text-align: left;
+    }
+
+    th {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    .delete-btn {
+      background-color: crimson;
+      color: white;
+      border: none;
+      padding: 0.5rem 0.8rem;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .delete-btn:hover {
+      background-color: darkred;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="sidebar">
+    <h2>AccuLedger</h2>
+    <a href="Dashboard.html">🏠 Dashboard</a>
+    <a href="income.html">💰 Income</a>
+    <a href="expenses.html">💵 Expenses</a>
+    <a href="invoices.html">📃 Invoices</a>
+    <a href="reports.html">📈 Reports</a>
+    <a href="settings.html">⚙️ Settings</a>
+  </div>
+
+  <div class="main">
+    <h1>Invoices</h1>
+    <form id="invoice-form">
+      <input type="text" placeholder="Client Name" required name="client" />
+      <input type="text" placeholder="Service Description" required name="service" />
+      <input type="number" placeholder="Amount (₹)" required name="amount" />
+      <input type="date" required name="date" />
+      <textarea rows="3" placeholder="Notes (optional)" name="notes"></textarea>
+      <button type="submit">📤 Submit Invoice</button>
+    </form>
+
+    <table id="invoice-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Client</th>
+          <th>Service</th>
+          <th>Amount (₹)</th>
+          <th>Notes</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <script>
+  const form = document.getElementById('invoice-form');
+  const tableBody = document.querySelector('#invoice-table tbody');
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    // Get the user email saved at login
+    const user_email = localStorage.getItem("username");
+
+    // Check if logged in
+    if (!user_email) {
+      alert("User not logged in!");
+      return;
+    }
+
+    // Prepare the data with correct backend keys
+    const data = {
+      user_email, // required by backend
+      client_name: form.client.value,
+      invoice_number: form.service.value,
+      amount: form.amount.value,
+      due_date: form.date.value,
+      notes: form.notes.value
+    };
+
+    try {
+      const response = await fetch('http://localhost:5000/api/invoice/add', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      const text = await response.text();
+
+      if (response.ok) {
+        // Add new row to the table
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${data.due_date}</td>
+          <td>${data.client_name}</td>
+          <td>${data.invoice_number}</td>
+          <td>₹${data.amount}</td>
+          <td>${data.notes}</td>
+          <td><button class="delete-btn">🗑️ Delete</button></td>
+        `;
+        tableBody.appendChild(row);
+        form.reset();
+        alert(text);
+      } else {
+        alert("Server error: " + text);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Could not submit invoice.");
+    }
+  });
+
+  // Handle row deletion
+  tableBody.addEventListener('click', function (e) {
+    if (e.target.classList.contains('delete-btn')) {
+      e.target.closest('tr').remove();
+    }
+  });
+</script>
+</body>
+</html>
